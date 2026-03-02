@@ -1,3 +1,6 @@
+import csv
+
+
 expenses=[]
 
 while True:
@@ -8,6 +11,12 @@ while True:
         item=input("内容: ")
         amount=int(input("金額: "))
         expenses.append((item,amount))
+        
+        #csvに保存
+        with open("kakeibo.csv",mode="a",newline="",encoding="utf-8") as f:
+            writer=csv.writer(f)
+            writer.writerow([item,amount])
+        
         print("追加しました")
         
     elif choice=="2":
