@@ -14,7 +14,7 @@ if os.path.exists("kakeibo.csv"):
 
 #==メインループ==
 while True:
-    print("\n1: 追加 2: 一覧 3: 終了")
+    print("\n1: 追加 2: 一覧  3: 削除 4: 終了")
     choice = input("選択: ")
     
     if choice=="1":
@@ -31,12 +31,29 @@ while True:
         
     elif choice=="2":
         total=0
-        for item,amount in expenses:
-            print(item,amount)
+        for i,(item,amount) in enumerate(expenses):
+            print(i,item,amount)
             total += amount
         print("合計:",total)
         
     elif choice=="3":
+        delete_index=int(input("削除する番号を入力: "))
+        
+        if 0<=delete_index<len(expenses):
+            expenses.pop(delete_index)
+            
+            #csvを書き直す
+            with open("kakeibo.csv",mode="w",newline="",encoding="utf-8") as f:
+                writer=csv.writer(f)
+                for item,amount in expenses:
+                    writer.writerow([item,amount])
+                    
+            print("削除しました")
+            
+        else:
+            print("無効な値です")
+        
+    elif choice=="4":
         break
     
     else:
