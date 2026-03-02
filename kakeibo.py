@@ -9,27 +9,29 @@ if os.path.exists("kakeibo.csv"):
         reader=csv.reader(f)
         for row in reader:
             item=row[0]
+            category=row[1]
             amount =int(row[1])
-            expenses.append((item,amount))
+            expenses.append((item,category,amount))
 
 #==追加==
 def add_expense():
     item=input("内容: ")
+    category=input("カテゴリ: ")
     amount=int(input("金額: "))
-    expenses.append((item,amount))
+    expenses.append((item,category,amount))
         
     #csvに保存
     with open("kakeibo.csv",mode="a",newline="",encoding="utf-8") as f:
         writer=csv.writer(f)
-        writer.writerow([item,amount])
+        writer.writerow([item,category,amount])
         
     print("追加しました")
         
 #==一覧==
 def show_expenses():
     total=0
-    for i,(item,amount) in enumerate(expenses):
-        print(i,item,amount)
+    for i,(item,category,amount) in enumerate(expenses):
+        print(i,item,category,amount)
         total += amount
     print("合計:",total)
     
@@ -43,8 +45,8 @@ def delete_expense():
         #csvを書き直す
         with open("kakeibo.csv",mode="w",newline="",encoding="utf-8") as f:
             writer=csv.writer(f)
-            for item,amount in expenses:
-                writer.writerow([item,amount])
+            for item,category,amount in expenses:
+                writer.writerow([item,category,amount])
                     
         print("削除しました")
             
