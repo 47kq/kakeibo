@@ -1,8 +1,18 @@
 import csv
-
+import os
 
 expenses=[]
 
+#==実行時にcsvを読み込む==
+if os.path.exists("kakeibo.csv"):
+    with open("kakeibo.csv",newline="",encoding="utf-8") as f:
+        reader=csv.reader(f)
+        for row in reader:
+            item=row[0]
+            amount =int(row[1])
+            expenses.append((item,amount))
+
+#==メインループ==
 while True:
     print("\n1: 追加 2: 一覧 3: 終了")
     choice = input("選択: ")
