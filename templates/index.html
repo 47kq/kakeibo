@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>家計簿</title>
+        <meta name="viewport" content="width=device-width,intiial-scale=1">
+        <style>
+            body { font-family: sans-serif; padding: 20px;}
+            table { width: 100%; border-collapse: collapse; margin-bottom: 20px;}
+            th,td {border: 1px solid #ccc; padding: 8px; text-align: center;}
+            input { width: 100%; padding: 6px; box-sizing: border-box;}
+            button {padding: 6px 12px;}
+        </style>
+    </head>
+    <body>
+        <h2>家計簿</h2>
+        <form method="POST">
+            <table>
+                <tr>
+                    <th>日付</th>
+                    <th>内容</th>
+                    <th>カテゴリ</th>
+                    <th>金額</th>
+                    <th>追加</th>
+                </tr>
+                <tr>
+                    <td><input type="date" name="date" required></td>
+                    <td><input type="text" name="item" required></td>
+                    <td><input type="text" name="category" required></td>
+                    <td><input type="number" name="amount" required></button></td>
+                    <td><button type="submit">追加</button></td>
+                </tr>
+            </table>
+        </form>
+
+        <h3>一覧</h3>
+        
+        <table>
+            <tr>
+                <th>日付</th>
+                <th>内容</th>
+                <th>カテゴリ</th>
+                <th>金額</th>
+            </tr>
+
+            {% for e in expenses %}
+            <tr>
+                <td>{{e.date}}</td>
+                <td>{{e.item}}</td>
+                <td>{{e.category}}</td>
+                <td style="text-align:right;">{{e.amount}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
