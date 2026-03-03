@@ -10,7 +10,7 @@ if os.path.exists("kakeibo.csv"):
         for row in reader:
             item=row[0]
             category=row[1]
-            amount =int(row[1])
+            amount =int(row[2])
             expenses.append((item,category,amount))
 
 #==追加==
@@ -30,10 +30,22 @@ def add_expense():
 #==一覧==
 def show_expenses():
     total=0
+    category_totals={}
+    
     for i,(item,category,amount) in enumerate(expenses):
         print(i,item,category,amount)
         total += amount
-    print("合計:",total)
+        
+        if category in category_totals:
+            category_totals[category]+=amount
+        else:
+            category_totals[category]=amount
+    
+    print("\n--- カテゴリ別合計 ---")
+    for category,amount in category_totals.items():
+        print(category,":",amount)
+    
+    print("\n合計:",total)
     
 #==削除==
 def delete_expense():
