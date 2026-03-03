@@ -1,5 +1,6 @@
 import csv
 import os
+import datetime
 
 expenses=[]
 
@@ -8,22 +9,24 @@ if os.path.exists("kakeibo.csv"):
     with open("kakeibo.csv",newline="",encoding="utf-8") as f:
         reader=csv.reader(f)
         for row in reader:
-            item=row[0]
-            category=row[1]
-            amount =int(row[2])
-            expenses.append((item,category,amount))
+            date=row[0]
+            item=row[1]
+            category =row[2]
+            amount=int(row[3])
+            expenses.append((date,item,category,amount))
 
 #==追加==
 def add_expense():
+    today=datetime.date.today()
     item=input("内容: ")
     category=input("カテゴリ: ")
     amount=int(input("金額: "))
-    expenses.append((item,category,amount))
+    expenses.append((today,item,category,amount))
         
     #csvに保存
     with open("kakeibo.csv",mode="a",newline="",encoding="utf-8") as f:
         writer=csv.writer(f)
-        writer.writerow([item,category,amount])
+        writer.writerow([today,item,category,amount])
         
     print("追加しました")
         
@@ -32,8 +35,8 @@ def show_expenses():
     total=0
     category_totals={}
     
-    for i,(item,category,amount) in enumerate(expenses):
-        print(i,item,category,amount)
+    for i,(date,item,category,amount) in enumerate(expenses):
+        print(i,date,item,category,amount)
         total += amount
         
         if category in category_totals:
