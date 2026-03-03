@@ -14,13 +14,23 @@ if os.path.exists("kakeibo.csv"):
             category =row[2]
             amount=int(row[3])
             expenses.append((date,item,category,amount))
+        for e in expenses:
+            print(e)
+        print("=============")
 
 #==追加==
 def add_expense():
-    today=datetime.date.today()
+    today=datetime.date.today().isoformat()
     item=input("内容: ")
     category=input("カテゴリ: ")
-    amount=int(input("金額: "))
+    
+    while True:
+        try:
+            amount=int(input("金額: "))
+            break
+        except ValueError:
+            print("数字を入力してください")
+            
     expenses.append((today,item,category,amount))
         
     #csvに保存
@@ -60,20 +70,36 @@ def delete_expense():
         #csvを書き直す
         with open("kakeibo.csv",mode="w",newline="",encoding="utf-8") as f:
             writer=csv.writer(f)
-            for item,category,amount in expenses:
-                writer.writerow([item,category,amount])
+            for date,item,category,amount in expenses:
+                writer.writerow([date,item,category,amount])
                     
         print("削除しました")
             
     else:
         print("無効な値です")
 
+def show_this_month_total():
+    today=datetime.date.today()
+    this_year=today.year
+    this_month=today.month
+    
+    total=0
+    
+    for date,item,category,amount in expenses:
+        year,month,day=map(int,date.split("-"))
+        
+        if year==this_year and month==this_month:
+            total+=amount
+            
+    print("今月の合計:",total)
+
 #==メインループ==
 def main():
     while True:
-        print("\n1: 追加 2: 一覧  3: 削除 4: 終了")
+        print("\n1: 追加 2: 一覧  3: 削除 4: 今月合計 5: 終了")
         choice = input("選択: ")
-    
+        
+        
         if choice=="1":
             add_expense()
         elif choice=="2":
@@ -81,9 +107,12 @@ def main():
         elif choice=="3":
             delete_expense()
         elif choice=="4":
+            show_this_month_total()
+        elif choice=="5":
             break
         else:
             print("無効な選択")
         
 #==実行==
-main()
+if __name__ =="__main__":
+    main()
