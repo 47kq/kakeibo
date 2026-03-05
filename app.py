@@ -7,6 +7,13 @@ expenses=[]
 @app.route("/",methods=["GET","POST"])
 def index():    
     
+    if request.method == "POST" and "delete" in request.form:
+        delete_index = int(request.form["delete"])
+        if 0<=delete_index < len(expenses):
+            expenses.pop(delete_index)
+        return redirect("/")
+    
+    
     
     if request.method=="POST":
         date=request.form["date"]
@@ -19,9 +26,12 @@ def index():
             "item":item,
             "category":category,
             "amount":amount
+            
         })
-        
-    return render_template("index.html",expenses=expenses)
+        return redirect("/")
+    
+    total =sum(int(e["amount"]) for e in expenses)
+    return render_template("index.html",expenses=expenses,total=total)
     
 
 if __name__=="__main__":
