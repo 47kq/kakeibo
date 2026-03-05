@@ -1,16 +1,40 @@
 from flask import Flask,render_template,request,redirect
+import sqlite3
 
 app=Flask(__name__)
 
 expenses=[]
+
+def init_db():
+    conn=sqlite3.connect("kakeibo.db")
+
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS expenses(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date TEXT,
+    item TEXT,
+    category TEXT,
+    amount INTEGER
+    )             
+    """)
+
+    conn.close()
+
+init_db()
 
 @app.route("/",methods=["GET","POST"])
 def index():    
     
     if request.method == "POST" and "delete" in request.form:
         delete_index = int(request.form["delete"])
-        if 0<=delete_index < len(expenses):
-            expenses.pop(delete_index)
+        
+        conn=sqlite3.connect("kakeibo.db")
+        
+        conn.execute("DELETE FROM expenses WHERE id=?", (delete_index,))
+        
+        conn.commit()
+        conn.close()
+        
         return redirect("/")
     
     
@@ -21,16 +45,29 @@ def index():
         category=request.form["category"]
         amount=request.form["amount"]
         
-        expenses.append({
-            "date":date,
-            "item":item,
-            "category":category,
-            "amount":amount
-            
-        })
+        conn=sqlite3.connect("kakeibo.db")
+        
+        conn.execute(
+            "INSERT INTO expenses(date,item,category,amount) VALUES(?,?,?,?)",
+            (date,item,category,amount)
+        )
+        conn.commit()
+        conn.close()
+        
         return redirect("/")
     
-    total =sum(int(e["amount"]) for e in expenses)
+    #データ取得
+    conn=sqlite3.connect("kakeibo.db")
+    
+    cursor = conn.execute("SELECT*FROM expenses")
+    
+    expenses=cursor.fetchall()
+    
+    conn.close()
+    
+    #合計
+    total =sum(e[4] for e in expenses)
+    
     return render_template("index.html",expenses=expenses,total=total)
     
 

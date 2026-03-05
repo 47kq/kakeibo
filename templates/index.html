@@ -46,13 +46,13 @@
 
             {% for e in expenses %}
             <tr>
-                <td>{{e.date}}</td>
-                <td>{{e.item}}</td>
-                <td>{{e.category}}</td>
-                <td style="text-align:right;">{{e.amount}}</td>
+                <td>{{e[1]}}</td>
+                <td>{{e[2]}}</td>
+                <td>{{e[3]}}</td>
+                <td style="text-align:right;">{{e[4]}}</td>
                 <td>
                     <form method="POST" style="margin: 0;">
-                        <button type="submit" name="delete" value="{{ loop.index0}}">
+                        <button type="submit" name="delete" value="{{e[0]}}">
                             削除
                         </button>
                     </form>
@@ -61,9 +61,7 @@
             {% endfor %}
         </table>
 
-        <h3>
-            合計: {{total}}
-        </h3>
+        <h3>合計: {{total}}</h3>
     </body>
 
 </html>
