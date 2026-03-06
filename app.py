@@ -3,7 +3,6 @@ import sqlite3
 
 app=Flask(__name__)
 
-expenses=[]
 
 def init_db():
     conn=sqlite3.connect("kakeibo.db")
@@ -63,12 +62,27 @@ def index():
     
     expenses=cursor.fetchall()
     
-    conn.close()
     
     #合計
     total =sum(e[4] for e in expenses)
     
-    return render_template("index.html",expenses=expenses,total=total)
+    #カテゴリ別合計
+    cursor=conn.execute("""
+    SELECT category ,SUM(amount)
+    FROM expenses                    
+    GROUP BY category
+    """)
+    
+    category_totals=cursor.fetchall()
+    
+    conn.close()
+    
+    return render_template(
+        "index.html",
+        expenses=expenses,
+        total=total,
+        category_totals=category_totals
+    )
     
 
 if __name__=="__main__":
