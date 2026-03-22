@@ -10,6 +10,8 @@
             th,td {border: 1px solid #ccc; padding: 8px; text-align: center;}
             input { width: 100%; padding: 6px; box-sizing: border-box;}
             button {padding: 6px 12px;}
+            .tab {display:none;}
+            #day {display:block;}
         </style>
     </head>
     <body>
@@ -70,6 +72,40 @@
             <li>{{ c[0] }} : {{c[1]}} 円</li>
             {% endfor %}
         </ul>
+
+        <button onclick="showTab('day')">日計</button>
+        <button onclick="showTab('month')">月計</button>
+        <button onclick="showTab('year')">年計</button>
+
+        <div id="day" class="tab">
+            <h2>日計</h2>
+            {% for d in day_data %}
+                {{d[0]}}:{{d[1]}}<br>
+            {% endfor %}
+        </div>
+
+        <div id="month" class="tab">
+            <h2>月計</h2>
+            {% for m in month_data %}
+                {{m[0]}}:{{m[1]}}<br>
+            {% endfor %}
+        </div>
+
+        <div id="year" class="tab">
+            <h2>年計</h2>
+            {% for y in year_data %}
+                {{y[0]}}:{{y[1]}}<br>
+            {% endfor %}
+        </div>
+
+        <script>
+            function showTab(tabName) {
+                document.querySelectorAll('.tab').forEach(tab =>{
+                    tab.style.display="none";
+                });
+                document.getElementById(tabName).style.display="block";
+            }
+        </script>
     </body>
 
 </html>

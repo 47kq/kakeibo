@@ -75,13 +75,42 @@ def index():
     
     category_totals=cursor.fetchall()
     
+    cursor=conn.execute("""
+    SELECT date,SUM(amount)
+    FROM expenses
+    GROUP BY date
+    ORDER BY date DESC                                        
+    """)
+    day_data=cursor.fetchall()
+    
+    cursor=conn.execute("""
+    SELECT strftime('%Y-%m',date),SUM(amount)
+    FROM expenses 
+    GROUP BY strftime('%Y-%m',date)
+    ORDER BY strftime('%Y-%m',date) DESC
+    """)
+    month_data=cursor.fetchall()
+    
+    cursor=conn.execute("""
+    SELECT strftime('%Y',date),SUM(amount)
+    FROM expenses
+    GROUP BY strftime('%Y',date)
+    ORDER BY strftime('%Y',date) DESC
+    """)
+    year_data=cursor.fetchall()
+    
+    
+    
     conn.close()
     
     return render_template(
         "index.html",
         expenses=expenses,
         total=total,
-        category_totals=category_totals
+        category_totals=category_totals,
+        day_data=day_data,
+        month_data=month_data,
+        year_data=year_data
     )
     
 
