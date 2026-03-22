@@ -11,7 +11,8 @@
             input { width: 100%; padding: 6px; box-sizing: border-box;}
             button {padding: 6px 12px;}
             .tab {display:none;}
-            #day {display:block;}
+            .active{display:block;}
+            .active-btn{background-color:lightblue;}
         </style>
     </head>
     <body>
@@ -73,11 +74,11 @@
             {% endfor %}
         </ul>
 
-        <button onclick="showTab('day')">日計</button>
-        <button onclick="showTab('month')">月計</button>
-        <button onclick="showTab('year')">年計</button>
+        <button class="tab-btn active-btn" onclick="showTab('day',this)">日計</button>
+        <button class="tab-btn" onclick="showTab('month',this)">月計</button>
+        <button class="tab-btn" onclick="showTab('year',this)">年計</button>
 
-        <div id="day" class="tab">
+        <div id="day" class="tab active">
             <h2>日計</h2>
             {% for d in day_data %}
                 {{d[0]}}:{{d[1]}}<br>
@@ -99,11 +100,17 @@
         </div>
 
         <script>
-            function showTab(tabName) {
+            function showTab(tabName,btn) {
                 document.querySelectorAll('.tab').forEach(tab =>{
-                    tab.style.display="none";
+                    tab.classList.remove('active');
                 });
-                document.getElementById(tabName).style.display="block";
+                document.querySelectorAll('.tab-btn').forEach(b =>{
+                    b.classList.remove('active-btn');
+                });
+
+                document.getElementById(tabName).classList.add('active');
+
+                btn.classList.add('active-btn');
             }
         </script>
     </body>
