@@ -69,6 +69,8 @@
 
         <h3>カテゴリ別合計</h3>
 
+        <canvas id="categoryChart"></canvas>
+
         <ul>
             {% for c in category_totals %}
             <li>{{ c[0] }} : {{c[1]}} 円</li>
@@ -138,6 +140,25 @@
                     datasets:[{
                         labes:'支出',
                         data:monthValues
+                    }]
+                }
+            })
+        </script>
+
+        <script>
+            const categoryLabels={{ category_totals | map(attribute=0) | list | tojson}};
+            const categoryValues={{ category_totals | map(attribute=1) | list | tojson}};
+        </script>
+
+        <script>
+            const ctx2 = document.getElementById('categoryChart').getContext('2d');
+
+            new Chart(ctx2,{
+                type: 'pie',
+                data:{
+                    labels:categoryLabels,
+                    datasets:[{
+                        data:categoryValues
                     }]
                 }
             })
