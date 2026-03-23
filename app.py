@@ -113,6 +113,34 @@ def index():
         year_data=year_data
     )
     
+@app.route("/edit/<int:id>")
+def edit(id):
+    conn=sqlite3.connect("kakeibo.db")
+    cursor=conn.execute("SELECT * FROM expenses WHERE id=?",(id,))
+    expense=cursor.fetchone()
+    conn.close()
+    
+    return render_template("edit.html",expense=expense)
+
+@app.route("/update/<int:id>",methods=["POST"])
+def update(id):
+    date=request.form["date"]
+    item=request.form["item"]
+    category=request.form["category"]
+    amount=int(request.form["amount"])
+    
+    conn=sqlite3.connect("kakeibo.db")
+    
+    conn.execute("""
+        UPDATE expenses
+        SET date=?,item=?,category=?,amount=?
+        WHERE id=?            
+    """,(date,item,category,amount,id))
+    
+    conn.commit()
+    conn.close()
+    
+    return redirect("/")
 
 if __name__=="__main__":
     app.run(debug=True)

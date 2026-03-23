@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>編集</title>
+    </head>
+    <body>
+        <h2>データ編集</h2>
+
+        <form method="POST" action="/update/{{expense[0]}}">
+            <p>
+                日付：
+                <input type="date" name="date" value="{{expense[1]}}" required>
+            </p>
+
+            <p>
+                内容：
+                <input type="text" name="item" value="{{expense[2]}}" required>
+            </p>
+
+            <p>
+                カテゴリ：
+                <input type="text" name="category" value="{{expense[3]}}" required>
+            </p>
+
+            <p>
+                金額：
+                <input type="number" name="amount" value="{{expense[4]}}" required>
+            </p>
+
+            <button type="submit">更新</button>
+        </form>
+
+        <br>
+        <a href="/">← 戻る</a>
+    </body>
+</html>

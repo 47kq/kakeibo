@@ -45,6 +45,7 @@
                 <th>内容</th>
                 <th>カテゴリ</th>
                 <th>金額</th>
+                <th>編集</th>
                 <th>削除</th>
             </tr>
 
@@ -54,6 +55,9 @@
                 <td>{{e[2]}}</td>
                 <td>{{e[3]}}</td>
                 <td style="text-align:right;">{{e[4]}}</td>
+                <td>
+                    <a href="/edit/{{e[0]}}">編集</a>
+                </td>
                 <td>
                     <form method="POST" style="margin: 0;">
                         <button type="submit" name="delete" value="{{e[0]}}">
