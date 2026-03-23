@@ -20,8 +20,11 @@
 
             <p>
                 カテゴリ：
-                <input type="text" name="category" value="{{expense[3]}}" required>
-            </p>
+                <select name="category">
+                    <option value="食費" {% if expense[3]=="食費" %}selected{% endif %}>食費</option>
+                    <option value="家庭用品" {% if expense[3]=="家庭用品" %}selected{% endif %}>家庭用品</option>
+                    <option value="服" {% if expense[3]=="服" %}selected{% endif %}>服</option>
+                </select>
 
             <p>
                 金額：

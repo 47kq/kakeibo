@@ -5,14 +5,60 @@
         <title>家計簿</title>
         <meta name="viewport" content="width=device-width,intial-scale=1">
         <style>
-            body { font-family: sans-serif; padding: 20px;}
-            table { width: 100%; border-collapse: collapse; margin-bottom: 20px;}
-            th,td {border: 1px solid #ccc; padding: 8px; text-align: center;}
-            input { width: 100%; padding: 6px; box-sizing: border-box;}
-            button {padding: 6px 12px;}
-            .tab {display:none;}
+            body { 
+                font-family: sans-serif;
+                background-color: #f5f6fa; 
+                padding: 20px;
+            }
+            table {
+                width: 100%; 
+                border-collapse: collapse;
+                background: white; 
+                border-radius: 10px;
+                overflow:hidden;
+                box-shadow:0 2px 8px rgba(0,0,0,0.1)
+            }
+            th{
+                background-color: #4a69bd; 
+                color: white;}
+            th,td {
+                padding: 10px;
+                border-bottom: 1px solid #eee;
+            }
+            input,select {
+                width: 100%; 
+                padding: 8px; 
+                border: 1px solid #ccc;
+            }
+            button {
+                padding: 6px 12px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button[type="submit"]{
+                background-color: #38ada9;
+                color: white;
+            }
+            button[name="delete"]{
+                background-color: #e55039;
+                color: white;
+            }
+            .tab-btn{
+                margin: 5px;
+                padding: 8px 12px;
+                border-radius: 5px;
+                background-color: #dcdde1;
+            }
+            .active-btn{
+                background-color: #4a69bd;
+                color: white;
+            }
+            .tab{
+                display: none;
+                margin-top: 10px;
+            }
             .active{display:block;}
-            .active-btn{background-color:lightblue;}
         </style>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
@@ -30,7 +76,13 @@
                 <tr>
                     <td><input type="date" name="date" required></td>
                     <td><input type="text" name="item" required></td>
-                    <td><input type="text" name="category" required></td>
+                    <td>
+                        <select name="category">
+                            <option value="食費">食費</option>
+                            <option value="家庭用品">家庭用品</option>
+                            <option value="服">服</option>
+                        </select>
+                    </td>
                     <td><input type="number" name="amount" required></td>
                     <td><button type="submit">追加</button></td>
                 </tr>
@@ -60,7 +112,8 @@
                 </td>
                 <td>
                     <form method="POST" style="margin: 0;">
-                        <button type="submit" name="delete" value="{{e[0]}}">
+                        <button type="submit" name="delete" value="{{e[0]}}"
+                                onclick="return confirm('本当に削除してもいいですか？');">
                             削除
                         </button>
                     </form>
